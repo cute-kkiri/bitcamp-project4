@@ -34,11 +34,6 @@ java {
     }
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = 'App'
-}
-
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
