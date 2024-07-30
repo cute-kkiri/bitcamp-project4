@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32e3fb9a-1010-431c-be7a-1ca6d3232236" name="변경" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/app-client/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app-client/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app-client/src/main/java/App.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app-common/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app-common/build.gradle" afterDir="false" />
@@ -12,6 +13,10 @@
       <change beforePath="$PROJECT_DIR$/app-server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app-server/src/main/java/App.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+>>>>>>> de8d49f7923ebcb6deea27e3adc5b34ef3209d47
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,30 +39,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bitcamp-project4" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bitcamp-project4" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bitcamp-project4" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bitcamp-project4" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="application" type="c8890929:TasksNode$1" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -88,7 +70,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+<<<<<<< HEAD
     "last_opened_file_path": "C:/Users/BIT/git/bitcamp-project4/settings.gradle"
+=======
+    "last_opened_file_path": "/Users/jeppetto/git/bitcamp-project4"
+>>>>>>> de8d49f7923ebcb6deea27e3adc5b34ef3209d47
   }
 }]]></component>
   <component name="RecentsManager">
