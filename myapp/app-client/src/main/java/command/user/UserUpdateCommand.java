@@ -27,9 +27,6 @@ public class UserUpdateCommand implements Command {
       }
 
       user.setName(Prompt.input("이름(%s)?", user.getName()));
-      user.setEmail(Prompt.input("이메일(%s)?", user.getEmail()));
-      user.setPassword(Prompt.input("암호?"));
-      user.setTel(Prompt.input("연락처(%s)?", user.getTel()));
 
       userDao.update(user);
       System.out.println("변경 했습니다.");

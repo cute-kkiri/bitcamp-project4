@@ -33,8 +33,8 @@ public class ClientApp {
   void execute() {
 
     try {
-      appCtx.setAttribute("host", Prompt.input("서버 주소?"));
-      appCtx.setAttribute("port", Prompt.inputInt("포트 번호?"));
+      appCtx.setAttribute("host", "127.0.0.1");
+      appCtx.setAttribute("port", 8888);
 
       // 애플리케이션이 시작될 때 리스너에게 알린다.
       for (ApplicationListener listener : listeners) {
@@ -45,9 +45,9 @@ public class ClientApp {
         }
       }
 
-      System.out.println("[프로젝트 관리 시스템]");
+      // System.out.println("[프로젝트 관리 시스템]");
 
-      appCtx.getMainMenu().execute();
+      // appCtx.getMainMenu().execute();
 
     } catch (Exception ex) {
       System.out.println("실행 오류!");

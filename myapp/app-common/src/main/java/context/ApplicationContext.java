@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ApplicationContext {
 
-  MenuGroup mainMenu = new MenuGroup("메인");
+  MenuGroup mainMenu = new MenuGroup("history");
 
   Map<String, Object> objContainer = new HashMap<>();
 

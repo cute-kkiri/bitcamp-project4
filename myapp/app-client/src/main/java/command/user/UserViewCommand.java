@@ -26,8 +26,6 @@ public class UserViewCommand implements Command {
       }
 
       System.out.printf("이름: %s\n", user.getName());
-      System.out.printf("이메일: %s\n", user.getEmail());
-      System.out.printf("연락처: %s\n", user.getTel());
 
     } catch (Exception e) {
       System.out.println("조회 중 오류 발생!");

@@ -1,7 +1,5 @@
 
 import context.ApplicationContext;
-import dao.skel.BoardDaoSkel;
-import dao.skel.ProjectDaoSkel;
 import dao.skel.UserDaoSkel;
 import listener.ApplicationListener;
 import listener.InitApplicationListener;
@@ -19,8 +17,6 @@ public class ServerApp {
   ApplicationContext appCtx = new ApplicationContext();
 
   UserDaoSkel userDaoSkel;
-  BoardDaoSkel boardDaoSkel;
-  ProjectDaoSkel projectDaoSkel;
 
   public static void main(String[] args) {
     ServerApp app = new ServerApp();
@@ -52,8 +48,6 @@ public class ServerApp {
 
     // 서버에서 사용할 Dao Skeloton 객체를 준비한다.
     userDaoSkel = (UserDaoSkel) appCtx.getAttribute("userDaoSkel");
-    boardDaoSkel = (BoardDaoSkel) appCtx.getAttribute("boardDaoSkel");
-    projectDaoSkel = (ProjectDaoSkel) appCtx.getAttribute("projectDaoSkel");
 
     System.out.println("서버 프로젝트 관리 시스템 시작!");
 
@@ -92,12 +86,6 @@ public class ServerApp {
       switch (dataName) {
         case "users":
           userDaoSkel.service(in, out);
-          break;
-        case "projects":
-          projectDaoSkel.service(in, out);
-          break;
-        case "boards":
-          boardDaoSkel.service(in, out);
           break;
         default:
       }

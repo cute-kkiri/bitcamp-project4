@@ -9,9 +9,6 @@ public class User implements Serializable {
 
   private int no;
   private String name;
-  private String email;
-  private String password;
-  private String tel;
 
   public User() {
   }
@@ -25,9 +22,6 @@ public class User implements Serializable {
     return "User{" +
         "no=" + no +
         ", name='" + name + '\'' +
-        ", email='" + email + '\'' +
-        ", password='" + password + '\'' +
-        ", tel='" + tel + '\'' +
         '}';
   }
 
@@ -62,29 +56,5 @@ public class User implements Serializable {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getTel() {
-    return tel;
-  }
-
-  public void setTel(String tel) {
-    this.tel = tel;
   }
 }

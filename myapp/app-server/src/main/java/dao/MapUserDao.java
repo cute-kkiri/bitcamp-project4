@@ -39,9 +39,6 @@ public class MapUserDao implements UserDao {
           User user = new User();
           user.setNo(Integer.parseInt(row.getCell(0).getStringCellValue()));
           user.setName(row.getCell(1).getStringCellValue());
-          user.setEmail(row.getCell(2).getStringCellValue());
-          user.setPassword(row.getCell(3).getStringCellValue());
-          user.setTel(row.getCell(4).getStringCellValue());
 
           userMap.put(user.getNo(), user);
           userNoList.add(user.getNo());
@@ -84,9 +81,6 @@ public class MapUserDao implements UserDao {
         Row dataRow = sheet.createRow(rowNo++);
         dataRow.createCell(0).setCellValue(String.valueOf(user.getNo()));
         dataRow.createCell(1).setCellValue(user.getName());
-        dataRow.createCell(2).setCellValue(user.getEmail());
-        dataRow.createCell(3).setCellValue(user.getPassword());
-        dataRow.createCell(4).setCellValue(user.getTel());
       }
 
       // 엑셀 파일로 데이터를 출력하기 전에
