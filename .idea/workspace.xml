@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32e3fb9a-1010-431c-be7a-1ca6d3232236" name="변경" comment="" />
+    <list default="true" id="32e3fb9a-1010-431c-be7a-1ca6d3232236" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,30 +29,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bitcamp-project4" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bitcamp-project4" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bitcamp-project4" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bitcamp-project4" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="application" type="c8890929:TasksNode$1" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -74,15 +54,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.bitcamp-project4:app [run].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/BIT/git/bitcamp-project4/app-server/src/main/resources&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.bitcamp-project4:app [run].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/jeppetto/git/bitcamp-project4"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\BIT\git\bitcamp-project4\app-server\src\main\resources" />
