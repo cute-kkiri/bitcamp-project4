@@ -22,33 +22,49 @@ public class ClientApp {
              Scanner scanner = new Scanner(System.in)) {
 
             String serverMessage;
-
+            int no;
             while (true) {
                 serverMessage = in.readUTF();
-                System.out.println(serverMessage);
-
-                if (start) {
+                if(start){
                     receiveBoard(in);
                     receiveMark(in);
                     printBingoBoard();
                     start = false;
                 }
 
-                if (serverMessage.startsWith("당신 차례입니다. 번호를 입력해주세요: ")) {
-                    String input = scanner.nextLine();
-                    try {
-                        int no = Integer.parseInt(input);
-                        out.writeInt(no);
-                        out.flush();
+                if(serverMessage.startsWith("hello")){
+                    System.out.println(serverMessage);
+                }
 
-                        receiveBoard(in);
-                        receiveMark(in);
-                        printBingoBoard();
-                    } catch (NumberFormatException e) {
-                        System.out.println("숫자로 입력해주세요");
+                if (serverMessage.startsWith("당신 차례입니다.")) {
+                    while (true){
+                        System.out.print(serverMessage);
+                        String input = scanner.nextLine();
+                        try {
+                            no = Integer.parseInt(input);
+                            out.writeInt(no);
+                            out.flush();
+
+                            if(in.readBoolean()){
+                                receiveBoard(in);
+                                receiveMark(in);
+                                printBingoBoard();
+                            }
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("숫자로 입력해주세요");
+                        }
                     }
                 } else if (serverMessage.contains("승리 || 무승부")) {
                     break;
+                }else if(serverMessage.contains("선택")){
+                    no = in.readInt();
+                    System.out.print(serverMessage);
+                    System.out.println(no);
+
+                    receiveBoard(in);
+                    receiveMark(in);
+                    printBingoBoard();
                 }
             }
         } catch (IOException e) {

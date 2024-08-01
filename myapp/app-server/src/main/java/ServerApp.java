@@ -15,6 +15,7 @@ public class ServerApp {
     private boolean[][] marked1 = new boolean[SIZE][SIZE];
     private boolean[][] marked2 = new boolean[SIZE][SIZE];
     private static final Set<Integer> pickedNumbers = new HashSet<>();
+    private Map<Integer, Integer> saveNumbers = new HashMap<>();
     private static int currentPlayer = 1;
     private boolean gameEnd = false;
 
@@ -65,6 +66,8 @@ public class ServerApp {
         }
 
         pickedNumbers.add(number);
+        System.out.println(saveNumbers.size() + ": " + number);
+        saveNumbers.put(saveNumbers.size(), number);
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -141,22 +144,36 @@ public class ServerApp {
                 sendMark(out, player == 1 ? marked1 : marked2);
 
                 while (!gameEnd) {
+                    if (cursor != saveNumbers.size()) {
+                        out.writeUTF("상대방 선택한 번호 ");
+                        out.writeInt(saveNumbers.get(cursor++));
+                        out.flush();
+
+                        sendBoard(out, player == 1 ? board1 : board2);
+                        sendMark(out, player == 1 ? marked1 : marked2);
+                    }
+
                     if (currentPlayer == player) {
                         out.writeUTF("당신 차례입니다. 번호를 입력해주세요: ");
                         out.flush();
 
                         int number = in.readInt();
+                        out.flush();
 
                         if (markNumber(number, player)) {
-                            sendBoard(out, player == 1 ? board1 : board2);
-                            sendMark(out, player == 1 ? marked1 : marked2);
+                            out.writeBoolean(true);
+                            out.flush();
+                            cursor++;
 
                             boolean player1Bingo = checkBingo(marked1);
                             boolean player2Bingo = checkBingo(marked2);
 
+                            sendBoard(out, player == 1 ? board1 : board2);
+                            sendMark(out, player == 1 ? marked1 : marked2);
+
                             if (player1Bingo) {
                                 gameEnd = true;
-                                if(player2Bingo){
+                                if (player2Bingo) {
                                     out.writeUTF("무승부입니다");
                                     out.flush();
                                     break;
@@ -164,16 +181,17 @@ public class ServerApp {
                                 out.writeUTF("BINGO! Player1 wins!");
                                 out.flush();
                                 break;
-                            }else if(player2Bingo){
+                            } else if (player2Bingo) {
                                 gameEnd = true;
                                 out.writeUTF("BINGO! Player2 wins!");
                                 out.flush();
                                 break;
-                            }else {
+                            } else {
                                 out.writeUTF("상대방 진행중");
                                 out.flush();
                             }
                         } else {
+                            out.writeBoolean(false);
                             out.writeUTF("이미 입력했던 번호입니다 기다려주세요");
                             out.flush();
                         }
@@ -186,7 +204,7 @@ public class ServerApp {
             }
         }
 
-        private void sendBoard(DataOutputStream out, int[][] board){
+        private void sendBoard(DataOutputStream out, int[][] board) {
             try {
                 for (int col = 0; col < SIZE; col++) {
                     for (int row = 0; row < SIZE; row++) {
@@ -199,7 +217,7 @@ public class ServerApp {
             }
         }
 
-        private void sendMark(DataOutputStream out, boolean[][] mark){
+        private void sendMark(DataOutputStream out, boolean[][] mark) {
             try {
                 for (int col = 0; col < SIZE; col++) {
                     for (int row = 0; row < SIZE; row++) {
@@ -211,4 +229,5 @@ public class ServerApp {
                 System.out.println("보드 전송 중 에러");
             }
         }
-    }}
+    }
+}
