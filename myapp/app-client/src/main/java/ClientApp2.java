@@ -1,14 +1,10 @@
-
-
-
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class ClientApp {
+public class ClientApp2 {
     private static final int SIZE = 4;
     private static final String SUCCESS = "success";
     private static int[][] board = new int[SIZE][SIZE];
