@@ -1,9 +1,5 @@
 
 
-import context.ApplicationContext;
-import listener.ApplicationListener;
-import listener.InitApplicationListener;
-import util.Prompt;
 
 import java.io.*;
 import java.net.Socket;
@@ -24,7 +20,7 @@ public class ClientApp {
 
     private void init(){
         Scanner scanner = new Scanner(System.in);
-        try (Socket socket = new Socket("192.168.0.27", 8888);
+        try (Socket socket = new Socket("localhost", 8888);
              DataInputStream in = new DataInputStream(socket.getInputStream());
              DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
