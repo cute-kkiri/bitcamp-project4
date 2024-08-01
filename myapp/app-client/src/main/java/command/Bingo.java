@@ -7,9 +7,8 @@ import java.util.Scanner;
 
 public class Bingo {
   private final static int SIZE = 4; //
-  boolean[][] bingoCheck = new boolean[SIZE][SIZE];
-
-  int[][] bingoBoard = new int[SIZE][SIZE];
+  private boolean[][] bingoCheck = new boolean[SIZE][SIZE];
+  private int[][] bingoBoard = new int[SIZE][SIZE];
 
   public static void main(String[] args) {
     new Bingo().play();
@@ -48,7 +47,6 @@ public class Bingo {
       }
 
       printBingoBoard();
-
     }
   }
 

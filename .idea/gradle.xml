@@ -12,6 +12,17 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/myapp" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/myapp" />
+            <option value="$PROJECT_DIR$/myapp/app-client" />
+            <option value="$PROJECT_DIR$/myapp/app-common" />
+            <option value="$PROJECT_DIR$/myapp/app-server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
     </option>
   </component>
 </project>
