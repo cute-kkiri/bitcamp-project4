@@ -23,7 +23,7 @@ public class ServerApp {
     boolean player2Bingo;
 
     public static void main(String[] args) {
-        new Server().init();
+        new ServerApp().init();
     }
 
     private void init() {
