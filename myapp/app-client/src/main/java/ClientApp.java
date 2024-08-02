@@ -25,15 +25,16 @@ public class ClientApp {
             int no;
             while (true) {
                 serverMessage = in.readUTF();
+
+                if(serverMessage.startsWith("Welcome") || serverMessage.contains("진행중")){
+                    System.out.println(serverMessage);
+                }
+
                 if(start){
                     receiveBoard(in);
                     receiveMark(in);
                     printBingoBoard();
                     start = false;
-                }
-
-                if(serverMessage.startsWith("hello")){
-                    System.out.println(serverMessage);
                 }
 
                 if (serverMessage.startsWith("당신 차례입니다.")) {
@@ -55,7 +56,8 @@ public class ClientApp {
                             System.out.println("숫자로 입력해주세요");
                         }
                     }
-                } else if (serverMessage.contains("승리 || 무승부")) {
+                } else if (serverMessage.contains("wins") || serverMessage.contains("무승부")) {
+                    System.out.println(serverMessage);
                     break;
                 }else if(serverMessage.contains("선택")){
                     no = in.readInt();

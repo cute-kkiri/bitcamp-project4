@@ -18,9 +18,12 @@ public class ServerApp {
     private Map<Integer, Integer> saveNumbers = new HashMap<>();
     private static int currentPlayer = 1;
     private boolean gameEnd = false;
+    private boolean complete = true;
+    boolean player1Bingo;
+    boolean player2Bingo;
 
     public static void main(String[] args) {
-        new ServerApp().init();
+        new Server().init();
     }
 
     private void init() {
@@ -125,6 +128,7 @@ public class ServerApp {
     private class ClientHandler implements Runnable {
         private Socket socket;
         private int player;
+        private final Object lock = new Object();
 
         public ClientHandler(Socket socket, int player) {
             this.socket = socket;
@@ -151,9 +155,15 @@ public class ServerApp {
 
                         sendBoard(out, player == 1 ? board1 : board2);
                         sendMark(out, player == 1 ? marked1 : marked2);
-                    }
 
+                        gameEnd = isEnd(out);
+                    }
                     if (currentPlayer == player) {
+
+                        if(gameEnd){
+                            break;
+                        }
+
                         out.writeUTF("당신 차례입니다. 번호를 입력해주세요: ");
                         out.flush();
 
@@ -165,31 +175,15 @@ public class ServerApp {
                             out.flush();
                             cursor++;
 
-                            boolean player1Bingo = checkBingo(marked1);
-                            boolean player2Bingo = checkBingo(marked2);
-
                             sendBoard(out, player == 1 ? board1 : board2);
                             sendMark(out, player == 1 ? marked1 : marked2);
 
-                            if (player1Bingo) {
-                                gameEnd = true;
-                                if (player2Bingo) {
-                                    out.writeUTF("무승부입니다");
-                                    out.flush();
-                                    break;
-                                }
-                                out.writeUTF("BINGO! Player1 wins!");
-                                out.flush();
-                                break;
-                            } else if (player2Bingo) {
-                                gameEnd = true;
-                                out.writeUTF("BINGO! Player2 wins!");
-                                out.flush();
-                                break;
-                            } else {
-                                out.writeUTF("상대방 진행중");
-                                out.flush();
-                            }
+                            player1Bingo = checkBingo(marked1);
+                            player2Bingo = checkBingo(marked2);
+                            gameEnd = isEnd(out);
+
+                            out.writeUTF("상대방 진행중");
+                            out.flush();
                         } else {
                             out.writeBoolean(false);
                             out.writeUTF("이미 입력했던 번호입니다 기다려주세요");
@@ -200,8 +194,29 @@ public class ServerApp {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
+        }
+
+        private boolean isEnd(DataOutputStream out) {
+            try {
+                if (player1Bingo) {
+                    if (player2Bingo) {
+                        out.writeUTF("무승부입니다");
+                        out.flush();
+                    }
+                    out.writeUTF("BINGO! Player1 wins!");
+                    out.flush();
+                    return true;
+                } else if (player2Bingo) {
+                    out.writeUTF("BINGO! Player2 wins!");
+                    out.flush();
+                    return true;
+                }
+            } catch (IOException e) {
+                System.out.println("게임 결과 전송 중 에러 발생");
+            }
+            return false;
         }
 
         private void sendBoard(DataOutputStream out, int[][] board) {
