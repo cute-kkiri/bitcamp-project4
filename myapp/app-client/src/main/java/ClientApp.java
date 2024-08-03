@@ -1,12 +1,17 @@
 
 
 
+import util.Prompt;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static util.Tui.*;
+import static util.Tui.printLogo;
 
 public class ClientApp {
     private static final int SIZE = 4;
@@ -16,6 +21,9 @@ public class ClientApp {
     private static boolean start = true;
 
     public static void main(String[] args) {
+        printLogo();
+
+        System.out.println();
         try (Socket socket = new Socket("localhost", 8888);
              DataInputStream in = new DataInputStream(socket.getInputStream());
              DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -23,24 +31,35 @@ public class ClientApp {
 
             String serverMessage;
             int no;
+            String name = Prompt.input("닉네임을 입력해주세요:");
+            System.out.println();
+            out.writeUTF(MAGENTA + BOLD + name + RESET);
+            out.flush();
             while (true) {
                 serverMessage = in.readUTF();
 
                 if(serverMessage.startsWith("Welcome") || serverMessage.contains("진행중")){
                     System.out.println(serverMessage);
+
+                    if (serverMessage.contains("진행중")) {
+                        System.out.println();
+                    }
                 }
 
                 if(start){
                     receiveBoard(in);
                     receiveMark(in);
                     printBingoBoard();
+                    System.out.println("잠시만 기다려주세요...");
+                    System.out.println();
                     start = false;
                 }
 
                 if (serverMessage.startsWith("당신 차례입니다.")) {
                     while (true){
-                        System.out.print(serverMessage);
-                        String input = scanner.nextLine();
+                        System.out.println(MAGENTA + BOLD + name + RESET + "님의 차례입니다.");
+                        String input = Prompt.input("번호를 입력해주세요>");
+                        System.out.println();
                         try {
                             no = Integer.parseInt(input);
                             out.writeInt(no);
@@ -50,6 +69,8 @@ public class ClientApp {
                                 receiveBoard(in);
                                 receiveMark(in);
                                 printBingoBoard();
+                            } else {
+                                System.out.println("이미 입력했던 번호입니다");
                             }
                             break;
                         } catch (NumberFormatException e) {
@@ -59,10 +80,10 @@ public class ClientApp {
                 } else if (serverMessage.contains("wins") || serverMessage.contains("무승부")) {
                     System.out.println(serverMessage);
                     break;
-                }else if(serverMessage.contains("선택")){
+                } else if(serverMessage.contains("선택")){
                     no = in.readInt();
-                    System.out.print(serverMessage);
-                    System.out.println(no);
+                    System.out.printf("%s%d\n", serverMessage, no);
+                    System.out.println();
 
                     receiveBoard(in);
                     receiveMark(in);
@@ -99,8 +120,6 @@ public class ClientApp {
     }
 
     public static void printBingoBoard() {
-        String redAnsi = "\033[31m";
-        String endAnsi = "\033[0m";
         int size = board.length;
 
         printLine(size);
@@ -109,7 +128,7 @@ public class ClientApp {
             System.out.print("|");
             for (int j = 0; j < size; j++) {
                 if (checkBoard[i][j]) {
-                    System.out.printf("%s %2d%s |", redAnsi, board[i][j], endAnsi);
+                    System.out.printf("%s%s %2d%s |", MAGENTA, BOLD, board[i][j], RESET);
                 } else {
                     System.out.printf(" %2d |", board[i][j]);
                 }

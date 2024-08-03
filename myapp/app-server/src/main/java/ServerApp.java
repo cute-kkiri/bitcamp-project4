@@ -16,6 +16,7 @@ public class ServerApp {
     private boolean[][] marked2 = new boolean[SIZE][SIZE];
     private static final Set<Integer> pickedNumbers = new HashSet<>();
     private Map<Integer, Integer> saveNumbers = new HashMap<>();
+    private Map<Integer, String> saveNames = new HashMap<>();
     private static int currentPlayer = 1;
     private boolean gameEnd = false;
     private boolean complete = true;
@@ -128,6 +129,7 @@ public class ServerApp {
     private class ClientHandler implements Runnable {
         private Socket socket;
         private int player;
+        String name;
         private final Object lock = new Object();
 
         public ClientHandler(Socket socket, int player) {
@@ -141,7 +143,10 @@ public class ServerApp {
             try (DataInputStream in = new DataInputStream(socket.getInputStream());
                  DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
-                out.writeUTF("Welcome, Player " + player);
+                name = in.readUTF();
+                saveNames.put(player, name);
+
+                out.writeUTF("Welcome, " + name);
                 out.flush();
 
                 sendBoard(out, player == 1 ? board1 : board2);
@@ -149,7 +154,7 @@ public class ServerApp {
 
                 while (!gameEnd) {
                     if (cursor != saveNumbers.size()) {
-                        out.writeUTF("상대방 선택한 번호 ");
+                        out.writeUTF(saveNames.get(player == 1 ? 2 : 1) + "님이 선택한 번호 ");
                         out.writeInt(saveNumbers.get(cursor++));
                         out.flush();
 
@@ -164,7 +169,7 @@ public class ServerApp {
                             break;
                         }
 
-                        out.writeUTF("당신 차례입니다. 번호를 입력해주세요: ");
+                        out.writeUTF("당신 차례입니다.");
                         out.flush();
 
                         int number = in.readInt();
@@ -182,7 +187,7 @@ public class ServerApp {
                             player2Bingo = checkBingo(marked2);
                             gameEnd = isEnd(out);
 
-                            out.writeUTF("상대방 진행중");
+                            out.writeUTF(saveNames.get(player == 1 ? 2 : 1) + "님이 진행중...");
                             out.flush();
                         } else {
                             out.writeBoolean(false);
@@ -200,16 +205,16 @@ public class ServerApp {
 
         private boolean isEnd(DataOutputStream out) {
             try {
-                if (player1Bingo) {
-                    if (player2Bingo) {
-                        out.writeUTF("무승부입니다");
-                        out.flush();
-                    }
-                    out.writeUTF("BINGO! Player1 wins!");
+                if (player1Bingo & player2Bingo) {
+                    out.writeUTF("무승부입니다");
+                    out.flush();
+                    return true;
+                } else if (player1Bingo) {
+                    out.writeUTF("BINGO! " + saveNames.get(1) + " wins!");
                     out.flush();
                     return true;
                 } else if (player2Bingo) {
-                    out.writeUTF("BINGO! Player2 wins!");
+                    out.writeUTF("BINGO! " + saveNames.get(2) + " wins!");
                     out.flush();
                     return true;
                 }
