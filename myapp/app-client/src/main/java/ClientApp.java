@@ -115,7 +115,7 @@ public class ClientApp {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(String.format("%s내 빙고판%s                 %s상대 빙고판%s\n", MAGENTA, RESET, GREEN, RESET));
+        stringBuilder.append(String.format("%s내 빙고판%s                 %s 상대 빙고판%s\n", MAGENTA, RESET, GREEN, RESET));
 
         stringBuilder.append(appendLine(size));
 
