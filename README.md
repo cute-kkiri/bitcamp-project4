@@ -103,3 +103,4 @@ BINGO! <strong>상대</strong> wins!
     5. 게임 종료.
 
 ## 아키텍쳐
+<img src="https://raw.githubusercontent.com/cute-kkiri/bitcamp-project4/5f2e1b5e572019ab45d4b10488f1cce5185db4cd/myapp/myapp.png" alt="UML" />
