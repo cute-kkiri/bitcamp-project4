@@ -1,0 +1,23 @@
+@startuml
+class util.Tui {
++ {static} String GREEN
++ {static} String BLUE
++ {static} String MAGENTA
++ {static} String LIGHTCIAN
++ {static} String BOLD
++ {static} String RESET
++ {static} void printLogo()
+- {static} void replaceAndColor(StringBuilder,char,String,String)
+}
+
+class util.Prompt {
+~ {static} Scanner keyboardScanner
+~ {static} Queue<String> inputQueue
++ {static} String input(String,Object)
++ {static} int inputInt(String,Object)
++ {static} void close()
++ {static} void printHistory()
+}
+
+
+@enduml

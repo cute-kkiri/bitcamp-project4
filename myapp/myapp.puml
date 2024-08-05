@@ -1,0 +1,95 @@
+@startuml
+class ClientApp2 {
+- {static} int SIZE
+- {static} String SUCCESS
+- {static} int[][] board
+- {static} boolean[][] checkBoard
+- {static} boolean start
++ {static} void main(String[])
+- void init()
+- void endBoard(DataInputStream)
+- void printEndBoard(int[][],boolean[][])
+- String appendLine(int)
+- void receiveBoard(DataInputStream,int[][])
+- void receiveMark(DataInputStream,boolean[][])
++ void printBingoBoard(int[][],boolean[][],String)
++ {static} void printLine(int)
+}
+
+
+class ServerApp {
+- {static} int PORT
+- {static} int SIZE
+- {static} int MAX_NUM
+- int[][] board1
+- int[][] board2
+- boolean[][] marked1
+- boolean[][] marked2
+- {static} Set<Integer> pickedNumbers
+- Map<Integer,Integer> saveNumbers
+- Map<Integer,String> saveNames
+- {static} int currentPlayer
+- boolean gameEnd
+- boolean complete
+~ boolean player1Bingo
+~ boolean player2Bingo
++ {static} void main(String[])
+- void init()
+- int[][] initializeBoard()
+- boolean markNumber(int,int)
+- boolean checkBingo(boolean[][])
+}
+
+
+class ServerApp$ClientHandler {
+- Socket socket
+- int player
+~ String name
+- Object lock
++ void run()
+- boolean isEnd(DataOutputStream)
+- void sendBoard(DataOutputStream,int[][])
+- void sendMark(DataOutputStream,boolean[][])
+}
+
+class util.Tui {
++ {static} String GREEN
++ {static} String BLUE
++ {static} String MAGENTA
++ {static} String LIGHTCIAN
++ {static} String BOLD
++ {static} String RESET
++ {static} void printLogo()
+- {static} void replaceAndColor(StringBuilder,char,String,String)
+}
+
+class util.Prompt {
+~ {static} Scanner keyboardScanner
+~ {static} Queue<String> inputQueue
++ {static} String input(String,Object)
++ {static} int inputInt(String,Object)
++ {static} void close()
++ {static} void printHistory()
+}
+
+
+class ClientApp {
+- {static} int SIZE
+- {static} String SUCCESS
+- {static} int[][] board
+- {static} boolean[][] checkBoard
+- {static} boolean start
++ {static} void main(String[])
+- void init()
+- void endBoard(DataInputStream)
+- void printEndBoard(int[][],boolean[][])
+- String appendLine(int)
+- void receiveBoard(DataInputStream,int[][])
+- void receiveMark(DataInputStream,boolean[][])
++ void printBingoBoard(int[][],boolean[][],String)
++ void printLine(int)
+}
+
+ServerApp +.. ServerApp$ClientHandler
+Runnable <|.. ServerApp$ClientHandler
+@enduml

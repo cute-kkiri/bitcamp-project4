@@ -1,0 +1,41 @@
+@startuml
+class ServerApp {
+- {static} int PORT
+- {static} int SIZE
+- {static} int MAX_NUM
+- int[][] board1
+- int[][] board2
+- boolean[][] marked1
+- boolean[][] marked2
+- {static} Set<Integer> pickedNumbers
+- Map<Integer,Integer> saveNumbers
+- Map<Integer,String> saveNames
+- {static} int currentPlayer
+- boolean gameEnd
+- boolean complete
+~ boolean player1Bingo
+~ boolean player2Bingo
++ {static} void main(String[])
+- void init()
+- int[][] initializeBoard()
+- boolean markNumber(int,int)
+- boolean checkBingo(boolean[][])
+}
+
+
+class ServerApp$ClientHandler {
+- Socket socket
+- int player
+~ String name
+- Object lock
++ void run()
+- boolean isEnd(DataOutputStream)
+- void sendBoard(DataOutputStream,int[][])
+- void sendMark(DataOutputStream,boolean[][])
+}
+
+
+
+ServerApp +.. ServerApp$ClientHandler
+Runnable <|.. ServerApp$ClientHandler
+@enduml

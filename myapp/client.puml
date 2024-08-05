@@ -1,0 +1,37 @@
+@startuml
+class ClientApp2 {
+- {static} int SIZE
+- {static} String SUCCESS
+- {static} int[][] board
+- {static} boolean[][] checkBoard
+- {static} boolean start
++ {static} void main(String[])
+- void init()
+- void endBoard(DataInputStream)
+- void printEndBoard(int[][],boolean[][])
+- String appendLine(int)
+- void receiveBoard(DataInputStream,int[][])
+- void receiveMark(DataInputStream,boolean[][])
++ void printBingoBoard(int[][],boolean[][],String)
++ {static} void printLine(int)
+}
+
+class ClientApp {
+- {static} int SIZE
+- {static} String SUCCESS
+- {static} int[][] board
+- {static} boolean[][] checkBoard
+- {static} boolean start
++ {static} void main(String[])
+- void init()
+- void endBoard(DataInputStream)
+- void printEndBoard(int[][],boolean[][])
+- String appendLine(int)
+- void receiveBoard(DataInputStream,int[][])
+- void receiveMark(DataInputStream,boolean[][])
++ void printBingoBoard(int[][],boolean[][],String)
++ void printLine(int)
+}
+
+
+@enduml
