@@ -144,6 +144,7 @@ public class ServerApp {
                  DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
                 name = in.readUTF();
+
                 saveNames.put(player, name);
 
                 out.writeUTF("Welcome, " + name);
@@ -153,6 +154,7 @@ public class ServerApp {
                 sendMark(out, player == 1 ? marked1 : marked2);
 
                 while (!gameEnd) {
+
                     if (cursor != saveNumbers.size()) {
                         out.writeUTF(saveNames.get(player == 1 ? 2 : 1) + "님이 선택한 번호 ");
                         out.writeInt(saveNumbers.get(cursor++));
@@ -166,6 +168,8 @@ public class ServerApp {
                     if (currentPlayer == player) {
 
                         if(gameEnd){
+                            sendBoard(out, player == 1 ? board2 : board1);
+                            sendMark(out, player == 1 ? marked2 : marked1);
                             break;
                         }
 
@@ -178,7 +182,6 @@ public class ServerApp {
                         if (markNumber(number, player)) {
                             out.writeBoolean(true);
                             out.flush();
-                            cursor++;
 
                             sendBoard(out, player == 1 ? board1 : board2);
                             sendMark(out, player == 1 ? marked1 : marked2);
@@ -186,6 +189,14 @@ public class ServerApp {
                             player1Bingo = checkBingo(marked1);
                             player2Bingo = checkBingo(marked2);
                             gameEnd = isEnd(out);
+
+                            if(gameEnd){
+                                sendBoard(out, player == 1 ? board2 : board1);
+                                sendMark(out, player == 1 ? marked2 : marked1);
+                                break;
+                            }
+
+                            cursor++;
 
                             out.writeUTF(saveNames.get(player == 1 ? 2 : 1) + "님이 진행중...");
                             out.flush();

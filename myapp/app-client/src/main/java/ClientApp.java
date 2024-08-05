@@ -22,12 +22,15 @@ public class ClientApp {
 
     public static void main(String[] args) {
         printLogo();
-
         System.out.println();
+
+        new ClientApp().init();
+    }
+
+    private void init() {
         try (Socket socket = new Socket("localhost", 8888);
              DataInputStream in = new DataInputStream(socket.getInputStream());
-             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-             Scanner scanner = new Scanner(System.in)) {
+             DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
             String serverMessage;
             int no;
@@ -38,7 +41,7 @@ public class ClientApp {
             while (true) {
                 serverMessage = in.readUTF();
 
-                if(serverMessage.startsWith("Welcome") || serverMessage.contains("진행중")){
+                if (serverMessage.startsWith("Welcome") || serverMessage.contains("진행중")) {
                     System.out.println(serverMessage);
 
                     if (serverMessage.contains("진행중")) {
@@ -46,17 +49,17 @@ public class ClientApp {
                     }
                 }
 
-                if(start){
-                    receiveBoard(in);
-                    receiveMark(in);
-                    printBingoBoard();
+                if (start) {
+                    receiveBoard(in, board);
+                    receiveMark(in, checkBoard);
+                    printBingoBoard(board, checkBoard, MAGENTA);
                     System.out.println("잠시만 기다려주세요...");
                     System.out.println();
                     start = false;
                 }
 
                 if (serverMessage.startsWith("당신 차례입니다.")) {
-                    while (true){
+                    while (true) {
                         System.out.println(MAGENTA + BOLD + name + RESET + "님의 차례입니다.");
                         String input = Prompt.input("번호를 입력해주세요>");
                         System.out.println();
@@ -65,10 +68,10 @@ public class ClientApp {
                             out.writeInt(no);
                             out.flush();
 
-                            if(in.readBoolean()){
-                                receiveBoard(in);
-                                receiveMark(in);
-                                printBingoBoard();
+                            if (in.readBoolean()) {
+                                receiveBoard(in, board);
+                                receiveMark(in, checkBoard);
+                                printBingoBoard(board, checkBoard, MAGENTA);
                             } else {
                                 System.out.println("이미 입력했던 번호입니다");
                             }
@@ -78,16 +81,17 @@ public class ClientApp {
                         }
                     }
                 } else if (serverMessage.contains("wins") || serverMessage.contains("무승부")) {
+                    endBoard(in);
                     System.out.println(serverMessage);
                     break;
-                } else if(serverMessage.contains("선택")){
+                } else if (serverMessage.contains("선택")) {
                     no = in.readInt();
                     System.out.printf("%s%d\n", serverMessage, no);
                     System.out.println();
 
-                    receiveBoard(in);
-                    receiveMark(in);
-                    printBingoBoard();
+                    receiveBoard(in, board);
+                    receiveMark(in, checkBoard);
+                    printBingoBoard(board, checkBoard, MAGENTA);
                 }
             }
         } catch (IOException e) {
@@ -95,7 +99,68 @@ public class ClientApp {
         }
     }
 
-    private static void receiveBoard(DataInputStream in) throws IOException {
+    private void endBoard(DataInputStream in) {
+        int[][] otherBoard = new int[SIZE][SIZE];
+        boolean[][] otherMark = new boolean[SIZE][SIZE];
+        receiveBoard(in, otherBoard);
+        receiveMark(in, otherMark);
+
+        printEndBoard(otherBoard, otherMark);
+    }
+
+    private void printEndBoard(int[][] otherBoard, boolean[][] otherMark) {
+        int size = board.length;
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(String.format("%s내 빙고판%s                 %s상대 빙고판%s\n", MAGENTA, RESET, GREEN, RESET));
+
+        stringBuilder.append(appendLine(size));
+
+        for (int i = 0; i < size; i++) {
+            stringBuilder.append("|");
+            for (int j = 0; j < size; j++) {
+                if (checkBoard[i][j]) {
+                    stringBuilder.append(String.format("%s%s %2d%s |", MAGENTA, BOLD, board[i][j], RESET));
+                }else {
+                    stringBuilder.append(String.format(" %2d |", board[i][j]));
+                }
+
+            }
+            stringBuilder.append("     |");
+            for(int x = 0; x < size; x++){
+                if (otherMark[i][x]) {
+                    stringBuilder.append(String.format("%s%s %2d%s |", GREEN, BOLD, otherBoard[i][x], RESET));
+                } else {
+                    stringBuilder.append(String.format(" %2d |", otherBoard[i][x]));
+                }
+            }
+            stringBuilder.append("\n");
+            stringBuilder.append(appendLine(size));
+        }
+
+        System.out.println(stringBuilder);
+    }
+
+    private String appendLine(int size){
+        StringBuilder  stringBuilder = new StringBuilder();
+
+        String line1 = "+----";
+        String line2 = "+";
+
+        stringBuilder.append(line1.repeat(Math.max(0, size)));
+        stringBuilder.append(line2);
+
+        stringBuilder.append("     ");
+
+        stringBuilder.append(line1.repeat(Math.max(0, size)));
+        stringBuilder.append(line2);
+
+        stringBuilder.append("\n");
+        return stringBuilder.toString();
+    }
+
+    private void receiveBoard(DataInputStream in, int[][] board) {
         try {
             for (int col = 0; col < SIZE; col++) {
                 for (int row = 0; row < SIZE; row++) {
@@ -107,11 +172,11 @@ public class ClientApp {
         }
     }
 
-    private static void receiveMark(DataInputStream in) {
+    private void receiveMark(DataInputStream in, boolean[][] mark) {
         try {
             for (int col = 0; col < SIZE; col++) {
                 for (int row = 0; row < SIZE; row++) {
-                    checkBoard[col][row] = in.readBoolean();
+                    mark[col][row] = in.readBoolean();
                 }
             }
         } catch (IOException e) {
@@ -119,7 +184,7 @@ public class ClientApp {
         }
     }
 
-    public static void printBingoBoard() {
+    public void printBingoBoard(int[][] board, boolean[][] mark, String color) {
         int size = board.length;
 
         printLine(size);
@@ -127,8 +192,8 @@ public class ClientApp {
         for (int i = 0; i < size; i++) {
             System.out.print("|");
             for (int j = 0; j < size; j++) {
-                if (checkBoard[i][j]) {
-                    System.out.printf("%s%s %2d%s |", MAGENTA, BOLD, board[i][j], RESET);
+                if (mark[i][j]) {
+                    System.out.printf("%s%s %2d%s |", color, BOLD, board[i][j], RESET);
                 } else {
                     System.out.printf(" %2d |", board[i][j]);
                 }
@@ -138,7 +203,7 @@ public class ClientApp {
         }
     }
 
-    public static void printLine(int size) {
+    public void printLine(int size) {
         for (int i = 0; i < size; i++) {
             System.out.print("+----");
         }
