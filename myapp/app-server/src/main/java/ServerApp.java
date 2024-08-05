@@ -148,37 +148,36 @@ public class ServerApp {
                 saveNames.put(player, name);
 
                 out.writeUTF("Welcome, " + name);
-                out.flush();
 
+
+                out.flush();
                 sendBoard(out, player == 1 ? board1 : board2);
                 sendMark(out, player == 1 ? marked1 : marked2);
 
                 while (!gameEnd) {
+
+                    if (cursor != saveNumbers.size()) {
+                        out.writeUTF(saveNames.get(player == 1 ? 2 : 1) + "님이 선택한 번호 ");
+                        out.writeInt(saveNumbers.get(cursor++));
+
+                        out.flush();
+                        sendBoard(out, player == 1 ? board1 : board2);
+                        sendMark(out, player == 1 ? marked1 : marked2);
+                        gameEnd = isEnd(out);
+                    }
                     if (currentPlayer == player) {
-                        if (cursor != saveNumbers.size()) {
-                            out.writeUTF(saveNames.get(player == 1 ? 2 : 1) + "님이 선택한 번호 ");
-                            out.writeInt(saveNumbers.get(cursor++));
-                            out.flush();
 
-                            sendBoard(out, player == 1 ? board1 : board2);
-                            sendMark(out, player == 1 ? marked1 : marked2);
-
-                            checkBingo(currentPlayer == 1 ? marked1 : marked2);
-                            gameEnd = isEnd(out);
-                        }
-
-                        if(gameEnd){
+                        if (gameEnd) {
                             sendBoard(out, player == 1 ? board2 : board1);
                             sendMark(out, player == 1 ? marked2 : marked1);
                             break;
                         }
 
+
                         out.writeUTF("당신 차례입니다.");
                         out.flush();
-
                         int number = in.readInt();
                         out.flush();
-
                         if (markNumber(number, player)) {
                             out.writeBoolean(true);
                             out.flush();
@@ -186,11 +185,12 @@ public class ServerApp {
                             sendBoard(out, player == 1 ? board1 : board2);
                             sendMark(out, player == 1 ? marked1 : marked2);
 
+
                             player1Bingo = checkBingo(marked1);
                             player2Bingo = checkBingo(marked2);
                             gameEnd = isEnd(out);
 
-                            if(gameEnd){
+                            if (gameEnd) {
                                 sendBoard(out, player == 1 ? board2 : board1);
                                 sendMark(out, player == 1 ? marked2 : marked1);
                                 break;
