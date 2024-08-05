@@ -154,18 +154,18 @@ public class ServerApp {
                 sendMark(out, player == 1 ? marked1 : marked2);
 
                 while (!gameEnd) {
-
-                    if (cursor != saveNumbers.size()) {
-                        out.writeUTF(saveNames.get(player == 1 ? 2 : 1) + "님이 선택한 번호 ");
-                        out.writeInt(saveNumbers.get(cursor++));
-                        out.flush();
-
-                        sendBoard(out, player == 1 ? board1 : board2);
-                        sendMark(out, player == 1 ? marked1 : marked2);
-
-                        gameEnd = isEnd(out);
-                    }
                     if (currentPlayer == player) {
+                        if (cursor != saveNumbers.size()) {
+                            out.writeUTF(saveNames.get(player == 1 ? 2 : 1) + "님이 선택한 번호 ");
+                            out.writeInt(saveNumbers.get(cursor++));
+                            out.flush();
+
+                            sendBoard(out, player == 1 ? board1 : board2);
+                            sendMark(out, player == 1 ? marked1 : marked2);
+
+                            checkBingo(currentPlayer == 1 ? marked1 : marked2);
+                            gameEnd = isEnd(out);
+                        }
 
                         if(gameEnd){
                             sendBoard(out, player == 1 ? board2 : board1);
