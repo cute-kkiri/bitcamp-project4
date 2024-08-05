@@ -111,6 +111,8 @@ public class ClientApp {
     private void printEndBoard(int[][] otherBoard, boolean[][] otherMark) {
         int size = board.length;
 
+        System.out.println();
+
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append(String.format("%s내 빙고판%s                 %s상대 빙고판%s\n", MAGENTA, RESET, GREEN, RESET));

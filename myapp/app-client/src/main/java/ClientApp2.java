@@ -109,6 +109,8 @@ public class ClientApp2 {
 
         StringBuilder stringBuilder = new StringBuilder();
 
+        System.out.println();
+
         stringBuilder.append(String.format("%s내 빙고판%s                 %s상대 빙고판%s\n", GREEN, RESET, MAGENTA, RESET));
 
         stringBuilder.append(appendLine(size));
